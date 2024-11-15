@@ -8,4 +8,5 @@ import com.tips.InventoryManagement.models.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 	 List<Product> findAllByOrderByIdDesc();
+	 
 }

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: html_head"></head>
+<body name="page-top">
+  <div th:replace="fragments :: sidebarNav" class="col-lg-2 d-none d-lg-block"></div>
+  
+  <div class="container-fluid col-lg-10 offset-lg-2">
+    <div th:replace="fragments :: topbarNav" class="mb-4"></div>
+
+    <!-- Main Content -->
+    <div id="content" class="bg-white shadow mb-4">
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 p-2 text-gray-800">Edit Product</h1>
+      </div>
+
+      <!-- Error Message -->
+      <p th:if="${errorMsg}" th:text="${errorMsg}" class="text-danger m-3"></p>
+      
+      <!-- Success Message -->
+      <p th:if="${successMsg}" th:text="${successMsg}" class="text-success m-3"></p>
+
+      <!-- Product Edit Form -->
+      <form th:action="@{/products/edit}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:value="${product.id}" name="id" />
+        
+        <div class="form-group">
+          <label for="productName">Product Name</label>
+          <input type="text" class="form-control" id="productName" name="productName" 
+                 th:value="${product.productName}" required />
+        </div>
+
+        <div class="form-group">
+          <label for="productDescription">Product Description</label>
+          <textarea class="form-control" id="productDescription" name="productDescription" required>
+            th:text="${product.productDescription}"
+          </textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="productCode">Product Code</label>
+          <input type="number" class="form-control" id="productCode" name="productCode" 
+                 th:value="${product.productCode}" required />
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category</label>
+          <input type="text" class="form-control" id="category" name="category" 
+                 th:value="${product.category}" required />
+        </div>
+
+        <div class="form-group">
+          <label for="unitCost">Unit Cost</label>
+          <input type="number" class="form-control" id="unitCost" name="unitCost" 
+                 th:value="${product.unitCost}" step="0.01" required />
+        </div>
+
+        <div class="form-group">
+          <label for="costPrice">Cost Price</label>
+          <input type="number" class="form-control" id="costPrice" name="costPrice" 
+                 th:value="${product.costPrice}" step="0.01" required />
+        </div>
+
+        <!-- Image (Optional) -->
+        <div class="form-group">
+          <label for="imageFile">Image</label>
+          <input type="file" class="form-control" id="imageFile" name="imageFile" />
+          <img th:src="@{'/images/' + ${product.imageInput}}" width="100" class="mt-2" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Product</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

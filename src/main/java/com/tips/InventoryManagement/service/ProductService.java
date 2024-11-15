@@ -1,6 +1,7 @@
 package com.tips.InventoryManagement.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,4 +20,17 @@ public class ProductService {
 	public List<Product> findAllProducts() {
 		return productRepository.findAllByOrderByIdDesc();
     }
+	public void deleteProductById(int id) {
+	    
+	    Optional<Product> product = productRepository.findById(id);
+	    if (product.isPresent()) {
+	        productRepository.deleteById(id);  
+	    } else {
+	        throw new RuntimeException("Product not found with id: " + id);
+	    }
+	}
+	public Optional<Product> findProductById(int id) {
+	    return productRepository.findById(id);  
+	}
+
 }
