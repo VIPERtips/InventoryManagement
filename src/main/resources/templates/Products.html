@@ -55,7 +55,9 @@
                 
                 <td>
                   <!-- Edit button -->
-                  <button class="btn btn-warning btn-sm" th:href="@{/products/edit{id=${product.id}}}">Edit</button>
+                  <!-- Corrected Edit Button -->
+<a class="btn btn-warning btn-sm" th:href="@{/products/edit(id=${product.id})}">Edit</a>
+
                   
                   <!-- Delete button with confirmation -->
                   <form th:action="@{/products/delete}" method="get" style="display:inline-block;">
