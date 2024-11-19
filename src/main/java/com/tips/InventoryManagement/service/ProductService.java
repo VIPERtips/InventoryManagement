@@ -97,5 +97,18 @@ public class ProductService {
 		return productRepository.findByUserId(id);
 	}
 	
+	//
+	public Page<Product> getProductsByCreator(Integer userId, Integer createdById, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findByCreatedBy_IdAndUser_Id(createdById, userId, pageable);
+    }
+
+    
+    public Page<Product> getProductsByUserId(Integer userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findByUser_Id(userId, pageable);
+    }
+    
+    
 
 }

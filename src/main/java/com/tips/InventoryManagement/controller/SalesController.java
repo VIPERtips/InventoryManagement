@@ -42,9 +42,9 @@ public class SalesController {
 	
 	@GetMapping("/new-sale")
 	public String showSalesPage(@RequestParam(defaultValue = "0") int page, 
-            @RequestParam(defaultValue = "10") int size, HttpSession session,Model model) {
+            @RequestParam(defaultValue = "10") int size, HttpSession session,Model model,RedirectAttributes redirectAttributes) {
 		User user = (User) session.getAttribute("user");
-		if(user != null) {
+		if(user != null && user.getUserType().equals("Admin")) {
 			Page<Sale> salesPage = saleService.getSalesByUserId(user.getId(), page,size);
 
 	        model.addAttribute("sales", salesPage.getContent()); 
@@ -53,17 +53,32 @@ public class SalesController {
 	        System.out.println("Sales page number"+salesPage.getNumber());
 	        model.addAttribute("totalPages", salesPage.getTotalPages());
 	        System.out.println("Sales page total elements "+salesPage.getTotalElements()+" sales page total pages = "+salesPage.getTotalPages());
-			model.addAttribute("pageTitle", "Sales");
+			model.addAttribute("pageTitle", "Admin Sales");
 			return "salespage";
-		} else {
-			model.addAttribute("errorMessage", "No sales found");
+		} else if(user != null && user.getUserType().equals("User")) {
+			Page<Sale> salesPage = saleService.getSalesByUserId(user.getId(), page,size);
+
+	        model.addAttribute("sales", salesPage.getContent()); 
+	        System.out.println("Sales Page total elements : "+salesPage.getContent());
+	        model.addAttribute("currentPage", salesPage.getNumber());
+	        System.out.println("Sales page number"+salesPage.getNumber());
+	        model.addAttribute("totalPages", salesPage.getTotalPages());
+	        System.out.println("Sales page total elements "+salesPage.getTotalElements()+" sales page total pages = "+salesPage.getTotalPages());
+			model.addAttribute("pageTitle", "User Sales");
+			return "user-salespage";
+		}
+		
+		else {
+			redirectAttributes.addFlashAttribute("errorMessage", "No sales found");
 			return "redirect:/login";
 	}
+		
+		
 		
 	}
 	@PostMapping("/new-sale")
 	public String createSales(@ModelAttribute("saleDto") @Validated SaleDto sale,BindingResult result
-			,Model model,HttpSession session) {
+			,Model model,HttpSession session,RedirectAttributes redirectAttributes) {
 		
 		if (result.hasErrors()) {
 	        return "salespage";  
@@ -88,6 +103,7 @@ public class SalesController {
 		sale.setBrand(product.getProductDescription());
 		Sale sale1 = new Sale();
 		sale1.setProductName(sale.getProductName());
+		sale1.setBarcode(sale.getBarcode());
 		sale1.setBrand(sale.getBrand());
 		sale1.setQuantity(sale.getQuantity());
 		sale1.setUnitPrice(sale.getUnitPrice());
@@ -99,12 +115,12 @@ public class SalesController {
 		
 		sale1.setReceiverNumber(sale.getReceiverNumber());
 		saleService.saveSale(sale1);
-		model.addAttribute("successMsg","Sale processed successfully");
+		redirectAttributes.addFlashAttribute("successMsg","Sale processed successfully");
 		return "redirect:/new-sale";
 	}
 	
 	@GetMapping("/sale/approve")
-	public String approveSale(@RequestParam int id,HttpSession session,Model model) {
+	public String approveSale(@RequestParam int id,HttpSession session,Model model, RedirectAttributes redirectAttributes) {
 
 		 Sale sale= (Sale) saleService.getSaleById(id);
 		if(sale != null) {
@@ -124,7 +140,7 @@ public class SalesController {
 		sale.setStatus("Approved");
 		saleService.saveSale(sale);
 		
-		model.addAttribute("successMessage", "Sale approved successfully");
+		redirectAttributes.addFlashAttribute("successMessage", "Sale approved successfully");
 		} else {
 			model.addAttribute("errorMessage", "Sale not found");
 			return "salespage";
@@ -135,35 +151,57 @@ public class SalesController {
 	@GetMapping("/sale/cancel")
 	public String deleteSale(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
 	    try {
-	       
+	        // Fetch the sale object
 	        Optional<Sale> saleOpt = saleService.findSaleById(id);
+
 	        if (saleOpt.isPresent()) {
 	            Sale sale = saleOpt.get();
-	            //remember to restore product quantity and price and amount 
-	            //sort of updating to the database
-	            //fixthis part
-	            if(sale.getStatus() == "Approved") {
-	            	saleService.deleteSaleById(id);
-	            	transactionService.deleteProductById(id);
+	            // Find the product using productName and barcode
+	            Product product = productService.findProductByProductNameAndBarcode(sale.getProductName(), sale.getBarcode());
+
+	            if (product != null) {
+	                // Check if the sale is pending
+	                if (sale.getStatus().equals("Pending")) {
+	                    // Restore the product quantity (add back the quantity sold)
+	                    product.setProductCode(product.getProductCode() + sale.getQuantity());
+	                    
+	                    // Save the updated product
+	                    productService.saveProduct(product);
+
+	                    
+	                    saleService.deleteSaleById(id);
+
+	                    redirectAttributes.addFlashAttribute("successMsg", "Sale cancelled and product quantity restored successfully.");
+	                }
+	                // Check if the sale is approved
+	                else if (sale.getStatus().equals("Approved")) {
+	                    // Restore the product quantity
+	                    product.setProductCode(product.getProductCode() + sale.getQuantity());
+
+	                    // Save the updated product
+	                    productService.saveProduct(product);
+
+	                   
+	                    Integer transactionId = sale.getId();  
+	                    // Delete the associated transaction
+						transactionService.deleteProductById(transactionId);
+
+	                    // Delete the sale
+	                    saleService.deleteSaleById(id);
+
+	                    redirectAttributes.addFlashAttribute("successMsg", "Sale cancelled, transaction deleted, and product quantity restored successfully.");
+	                }
+	            } else {
+	                redirectAttributes.addFlashAttribute("errorMsg", "Product associated with the sale not found.");
 	            }
-	            
-	                
-	                
-	                
-
-	            
-	            saleService.deleteSaleById(id);
-
-	            redirectAttributes.addFlashAttribute("successMsg", "Sale cancelled successfully.");
 	        } else {
 	            redirectAttributes.addFlashAttribute("errorMsg", "Sale not found.");
 	        }
 	    } catch (Exception e) {
-	        redirectAttributes.addFlashAttribute("errorMsg", "Failed to delete sale: " + e.getMessage());
+	        redirectAttributes.addFlashAttribute("errorMsg", "Failed to cancel sale: " + e.getMessage());
 	    }
+
 	    return "redirect:/new-sale";  
 	}
-	
-	
-	
+
 }

@@ -3,7 +3,7 @@
 <head th:replace="fragments :: html_head">
 <body id="page-top">
     <!-- Sidebar -->
-    <div th:replace="fragments :: sidebarNav" class="col-lg-2 d-none d-lg-block"></div>
+    <div th:replace="fragments :: sidebarNavUser" class="col-lg-2 d-none d-lg-block"></div>
 
     <!-- Content Wrapper -->
     <div class="container-fluid col-lg-10 offset-lg-2">
@@ -112,8 +112,8 @@
                         </thead>
                         <tbody>
                             <tr th:each="sale, iterStat : ${sales}">
-                			<td th:text="${iterStat.count}"></td>
-                            
+                				<td th:text="${iterStat.count}"></td>
+                  
                                 <td th:text="${sale.productName}"></td>
                                 <td th:text="${sale.brand}"></td>
                                 <td th:text="${sale.quantity}"></td>

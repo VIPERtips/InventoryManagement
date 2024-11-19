@@ -2,6 +2,7 @@ package com.tips.InventoryManagement.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +31,17 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private User createdBy; 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
 	
 	public User getUser() {
 		return user;
@@ -112,4 +124,6 @@ public class Product {
 	public void setCostPrice(double costPrice) {
 		this.costPrice = costPrice;
 	}
+
+	
 }

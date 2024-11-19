@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: html_head">
+<body name="page-top">
+  <!-- Sidebar Column -->
+  <div th:replace="fragments :: sidebarNavUser" class="col-lg-2 d-none d-lg-block"></div>
+  <div th:replace="fragments :: topbarNav" class="mb-4"></div>
+  <!-- Content Wrapper -->
+  <div class="container-fluid col-lg-10 offset-lg-2">
+    <!-- Topbar -->
+    
+    
+    <!-- Main Content -->
+    <div id="content" class="bg-white shadow mb-4">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 p-2 text-gray-800">Show Products</h1>
+      </div>
+
+      <!-- Success Message -->
+      <p th:if="${successMsg}" th:text="${successMsg}" class="text-success m-3"></p>
+
+      <!-- Error Message -->
+      <p th:if="${errorMsg}" th:text="${errorMsg}" class="text-danger"></p>
+
+      <!-- Product List -->
+      <div class="card">
+        <div class="card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Barcode</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Category</th>
+                <th scope="col">Unit Cost ($)</th>
+                <th scope="col">Unit Price ($)</th>
+                <th scope="col">Image</th>
+               
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Display products dynamically from the backend -->
+              <tr th:each="product : ${products}">
+                <td th:text="${product.barcode}"></td>
+                <td th:text="${product.productName}"></td>
+                <td th:text="${product.productDescription}"></td>
+                <td th:text="${product.productCode}"></td>
+                <td th:text="${product.category}"></td>
+                <td th:text="'$' + ${product.unitCost}"></td>
+                <td th:text="'$' + ${product.costPrice}"></td>
+                
+                <td class="text-nowrap">
+                  <img th:src="@{'/images/' + ${product.imageInput}}" width="100">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/products(page=${currentPage - 1}, size=10)}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{/products(page=${i}, size=10)}" th:text="${i + 1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+                <a class="page-link" th:href="@{/products(page=${currentPage + 1}, size=10)}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:replace="fragments :: modal"></div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/chart-area-demo.js"></script>
+  <script src="js/demo/chart-pie-demo.js"></script>
+  <!-- cdn link -->
+  <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

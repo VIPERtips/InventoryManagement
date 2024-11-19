@@ -25,14 +25,23 @@ public class TransactionController {
 	public String showTransaction(@RequestParam(defaultValue = "0") int page, 
             @RequestParam(defaultValue = "10") int size, HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
-		if(user != null) {
-			Page<Transaction> transactionPage = transactionService.getTransactionsByUserId(user.getId(), page,size);
-			model.addAttribute("transactions", transactionPage.getContent()); 
-	        model.addAttribute("currentPage", transactionPage.getNumber());
-	        model.addAttribute("totalPages", transactionPage.getTotalPages());
-			model.addAttribute("pageTitle", "Transaction History" );
-			return "transaction";
-		} else {
+		if(user != null && user.getUserType().equals("Admin")) {
+				Page<Transaction> transactionPage = transactionService.getTransactionsByUserId(user.getId(), page,size);
+				model.addAttribute("transactions", transactionPage.getContent()); 
+		        model.addAttribute("currentPage", transactionPage.getNumber());
+		        model.addAttribute("totalPages", transactionPage.getTotalPages());
+				model.addAttribute("pageTitle", "Admin Transaction History" );
+				return "transaction";
+			} else if (user != null && user.getUserType().equals("User")) {
+				Page<Transaction> transactionPage = transactionService.getTransactionsByUserId(user.getId(), page,size);
+				model.addAttribute("transactions", transactionPage.getContent()); 
+		        model.addAttribute("currentPage", transactionPage.getNumber());
+		        model.addAttribute("totalPages", transactionPage.getTotalPages());
+				model.addAttribute("pageTitle", "User Transaction History" );
+				return "user-transaction";
+			}
+		
+		else {
 			return "redirect:/login";
 	}
 		

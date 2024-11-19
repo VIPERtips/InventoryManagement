@@ -1,5 +1,6 @@
 package com.tips.InventoryManagement.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,4 +22,8 @@ public class UserService {
 		// TODO Auto-generated method stub
 		return userRepository.findByEmail(email);
 	}
+	
+	public List<User> findUsersCreatedBy(User createdBy) {
+        return userRepository.findByCreatedBy(createdBy.getId()); 
+    }
 }

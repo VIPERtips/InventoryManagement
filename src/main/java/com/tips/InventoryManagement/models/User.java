@@ -15,7 +15,36 @@ public class User {
 	@Transient
 	private String confirmPassword;
 	
+	private String userType;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private User createdBy; //
+	
+	public User getCreatedBy() {
+        return createdBy;
+    }
 
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+	
+	@PrePersist
+	public void prePersist()
+	{
+		if(userType== null)
+		{
+			userType= "Admin";
+		}
+	}
+	
+
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 	public User() {
 	}
 	public User(int id, String firstName, String lastName, String email, String password, String confirmPassword) {

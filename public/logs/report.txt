@@ -3,3 +3,12 @@
 2024-11-17 16:48:19 - Update on  - Samsung - A15 5G - Quantity  - 12  - Category   - Mobile Phones  - UnitPrice $150.0  - CostPrice $225.0  - Initiated By   - Tadiwa Blessed
 2024-11-17 16:50:56 - Update on  - Samsung - A15 5G - Quantity  - 13  - Category   - Mobile Phones  - UnitPrice $150.0  - CostPrice $225.0  - Initiated By   - Tadiwa Blessed
 2024-11-18 10:04:35 - Update on  - Samsung - A51 - Quantity  - 10  - Category   - Mobile Phones  - UnitPrice $130.0  - CostPrice $200.0  - Initiated By   - Tadiwa Blessed
+2024-11-18 13:41:14 - Added  - Samsung - A51 - Quantity  - 3  - Category   - Other  - UnitPrice $130.0  - CostPrice $200.0  - Initiated By   - Tadiwa Blessed
+2024-11-18 14:05:31 - Added  - Google - pixel 2 - Quantity  - 5  - Category   - Mobile Phones  - UnitPrice $350.0  - CostPrice $500.0  - Initiated By   - Tadiwa Blessed
+2024-11-18 14:28:24 - Added  - Samsung - A51 - Quantity  - 20  - Category   - Mobile Phones  - UnitPrice $130.0  - CostPrice $200.0  - Initiated By   - Tadiwa Blessed
+2024-11-18 14:59:27 - Added  - Samsung - A51 - Quantity  - 20  - Category   - Other  - UnitPrice $130.0  - CostPrice $200.0  - Initiated By   - Tadiwa Blessed
+2024-11-18 16:02:56 - Added  - Samsung - A51 - Quantity  - 20  - Category   - Other  - UnitPrice $130.0  - CostPrice $200.0  - Initiated By   - Tadiwa Blessed
+2024-11-18 16:21:00 - Added  - HP - G40 - Quantity  - 10  - Category   - laptops  - UnitPrice $340.0  - CostPrice $500.0  - Initiated By   - Tadiwa Blessed
+2024-11-18 17:27:19 - Added  - HP - G40 - Quantity  - 10  - Category   - Mobile Phones  - UnitPrice $340.0  - CostPrice $500.0  - Initiated By   - Tadiwa Blessed
+2024-11-18 17:29:11 - Added  - HP - G40 - Quantity  - 10  - Category   - Mobile Phones  - UnitPrice $340.0  - CostPrice $500.0  - Initiated By   - Tadiwa Blessed
+2024-11-18 17:39:44 - Added  - Samsung - Note - Quantity  - 20  - Category   - Mobile Phones  - UnitPrice $300.0  - CostPrice $520.0  - Initiated By   - Tadiwa Blessed

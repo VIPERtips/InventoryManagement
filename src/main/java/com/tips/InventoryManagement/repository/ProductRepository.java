@@ -25,5 +25,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	Long countByUserId(int userid);
 	Product findByProductNameAndBarcode(String productName, String barcode);
 	
+	  
+    Page<Product> findByCreatedBy_IdAndUser_Id(Integer createdById, Integer userId, Pageable pageable);
+
+    
+    Page<Product> findByUser_Id(Integer userId, Pageable pageable);
+
+	
 	 
 }

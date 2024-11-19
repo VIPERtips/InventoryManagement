@@ -3,7 +3,7 @@
 <head th:replace="fragments :: html_head">
 <body id="page-top">
     <!-- Sidebar -->
-    <div th:replace="fragments :: sidebarNav" class="col-lg-2 d-none d-lg-block"></div>
+    <div th:replace="fragments :: sidebarNavUser" class="col-lg-2 d-none d-lg-block"></div>
 
     <!-- Content Wrapper -->
     <div class="container-fluid col-lg-10 offset-lg-2">
@@ -37,9 +37,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <!-- Example Transaction Entry (Thymeleaf iteration) -->
                                 <tr th:each="transaction, iterStat : ${transactions}">
                 				<td th:text="${iterStat.count}"></td>
- 
                                     <td th:text="${transaction.productName}"></td>
                                     <td th:text="${transaction.brand}"></td>
                                     <td th:text="${transaction.quantity}"></td>
