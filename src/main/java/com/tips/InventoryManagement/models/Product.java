@@ -17,10 +17,9 @@ public class Product {
 	private int id;
 	
 	private String productName;
-	@Column(columnDefinition = "TEXT")
-	
+	@Column(columnDefinition = "TEXT",name = "brand")
 	private String productDescription;
-	
+	@Column(name = "quantity")
 	private Integer productCode;
 	private String imageInput;
 	@Column(nullable = false, unique = true)

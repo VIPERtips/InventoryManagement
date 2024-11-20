@@ -60,16 +60,18 @@
           <nav>
         <ul class="pagination">
             <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                <a class="page-link" th:href="@{/products(page=${currentPage - 1}, size=10)}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
+                <a class="page-link" th:href="@{/products-for-user(creatorId=${creatorId}, page=${currentPage - 1}, size=10)}" aria-label="Previous">
+    <span aria-hidden="true">&laquo;</span>
+</a>
+
             </li>
             <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-                th:classappend="${i == currentPage} ? 'active'">
-                <a class="page-link" th:href="@{/products(page=${i}, size=10)}" th:text="${i + 1}"></a>
-            </li>
+    th:classappend="${i == currentPage} ? 'active'">
+    <a class="page-link" th:href="@{/products-for-user(creatorId=${creatorId}, page=${i}, size=10)}" th:text="${i + 1}"></a>
+</li>
+
             <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
-                <a class="page-link" th:href="@{/products(page=${currentPage + 1}, size=10)}" aria-label="Next">
+                <a class="page-link" th:href="@{products-for-user(creatorId=${creatorId}, size=10)}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

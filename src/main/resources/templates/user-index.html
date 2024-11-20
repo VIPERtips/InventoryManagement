@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments :: html_head">
+<head th:replace="~{fragments :: html_head}">
 
 <body id="page-top">
 
@@ -9,8 +9,8 @@
     <div id="wrapper">
 
   
-  <div th:replace="fragments :: sidebarNavUser" class="d-none d-sm-block"></div>
-<div th:replace="fragments :: topbarNav" class="d-none d-sm-flex"></div>
+  <div th:replace="~{fragments :: sidebarNavUser}" class="d-none d-sm-block"></div>
+<div th:replace="~{fragments :: topbarNav}" class="d-none d-sm-flex"></div>
         <!-- Content Wrapper -->
          <div class="container-fluid mt-5">
         <div id="content-wrapper" class="d-flex flex-column">
@@ -46,7 +46,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Total Items In Stock</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${totalProductQuantity}"></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${totalProductQuantity}">2</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-box fa-2x text-gray-300"></i>
@@ -199,7 +199,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-           <div th:replace="fragments :: footer">
+           <div th:replace="~{fragments :: footer}">
         </div>
             <!-- End of Footer -->
 
@@ -216,7 +216,7 @@
     </a>
 
     <!-- Logout Modal-->
-   <div th:replace="fragments :: modal"></div>
+   <div th:replace="~{fragments :: modal}"></div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

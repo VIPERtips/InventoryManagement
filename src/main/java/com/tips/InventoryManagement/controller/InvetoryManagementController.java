@@ -32,12 +32,82 @@ public class InvetoryManagementController {
 	@Autowired
 	private ProductRepository productRepository;
 	
+	private boolean isAdmin(User user) {
+	    return user != null && "Admin".equals(user.getUserType());
+	}
 
+	private boolean isUser(User user) {
+	    return user != null && "User".equals(user.getUserType());
+	}
 	
-	
-	
+	private void populateDashboard(Model model, User user) {
+	    // Fetch the products for the logged-in user
+	    List<Product> products = productRepository.findByUserId(user.getId());
+	    
+	    if (products.isEmpty()) {
+	        model.addAttribute("message", "No products found for the user.");
+	    }
+	    
+	    // Get distinct categories
+	    List<String> categories = products.stream()
+	        .map(Product::getCategory)
+	        .distinct()
+	        .collect(Collectors.toList());
 
-	
+	    // Sum up product quantities for each category
+	    List<Integer> quantities = categories.stream()
+	        .map(category -> products.stream()
+	            .filter(product -> product.getCategory().equals(category))
+	            .map(Product::getProductCode)  
+	            .reduce(0, Integer::sum))   // Summing quantities
+	        .collect(Collectors.toList());
+
+	    // Add data to the model
+	    model.addAttribute("categories", categories);
+	    model.addAttribute("quantities", quantities);
+
+	    // Get total product quantity, cost, revenue, and expected profit
+	    
+	    Integer totalProductQuantity;
+
+        
+	    if (isAdmin(user)) {
+	        totalProductQuantity = productService.getTotalProductQuantityByUserId(user.getId());
+	    } else if (isUser(user)) {
+	        totalProductQuantity = productService.getTotalProductQuantityByUserIdForUser(1); // Adjusted for createdBy
+	    } else {
+	        totalProductQuantity = 0;
+	    }
+	    model.addAttribute("totalProductQuantity", totalProductQuantity);
+
+	    if (totalProductQuantity == 0) {
+	        model.addAttribute("message", "No products available.");
+	    }
+	    
+	    Double totalCost = productService.getTotalCost(user.getId());
+	    model.addAttribute("totalCost", totalCost != null ? totalCost : 0.0);
+
+	    Double totalRevenue = productService.getTotalRevenue(user.getId());
+	    model.addAttribute("totalRevenue", totalRevenue != null ? totalRevenue : 0.0);
+
+	    Double expectedProfit = productService.getExpectedRevenue(user.getId());
+	    model.addAttribute("expectedProfit", expectedProfit != null ? expectedProfit : 0.0);
+	}
+
+	@GetMapping("/dashboard")
+	public String dashboard(HttpSession session, Model model) {
+	    User user = (User) session.getAttribute("user");
+	    if (isAdmin(user)) {
+	        populateDashboard(model, user);
+	        return "index";
+	    } else if (isUser(user)) {
+	        return "redirect:/user-dashboard";
+	    }
+	    return "redirect:/login";
+	}
+
+
+	/*
 	@GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -72,7 +142,7 @@ public class InvetoryManagementController {
         } else {
             return "redirect:/login";  
         }
-    }
+    }*/
 	
 	@GetMapping("/user-dashboard")
     public String userDashboard(HttpSession session, Model model) {
@@ -81,28 +151,6 @@ public class InvetoryManagementController {
             model.addAttribute("username", user.getFirstName()+ " "+user.getLastName());
             model.addAttribute("pageTitle", "User Dashboard");
             
-            //start
-            List<Product> products = productRepository.findByUserId(user.getId());
-            List<String> categories = products.stream()
-            		.map(Product :: getCategory)
-            		.distinct()
-            		.collect(Collectors.toList());
-            List<Integer> quantities = categories.stream()
-            		.map(category -> products.stream()
-            				.filter(product -> 
-            				product.getCategory().equals(category))
-            				.map(Product:: getProductCode)
-            				.reduce(0, Integer::sum)
-            				).collect(Collectors.toList());
-            model.addAttribute("categories",categories);
-            model.addAttribute("quantities",quantities);
-            //end
-            
-           
-            model.addAttribute("totalProductQuantity", productService.getTotalProductQuantityByUserId(user.getId()));
-            model.addAttribute("totalCost", productService.getTotalCost(user.getId()));
-            model.addAttribute("totalRevenue", productService.getTotalRevenue(user.getId()));
-            model.addAttribute("expectedProfit", productService.getExpectedRevenue(user.getId()));
             
             return "user-index";  
         } else {
@@ -121,6 +169,30 @@ public class InvetoryManagementController {
 	}
 	
 	@PostMapping("/login")
+	public String handleLogin(@RequestParam String email, @RequestParam String password, Model model, HttpSession session) {
+		
+	    Optional<User> user = userService.findByEmail(email);
+	    if (user.isPresent() && user.get().getPassword().equals(password) && user.get().getUserType().equals("Admin")) {
+	        session.setAttribute("user", user.get()); 
+	        User user1 = (User) session.getAttribute("user");
+			System.out.println("Logged in User ID: " + user1.getId());
+			System.out.println("Created By User ID: " + (user1.getCreatedBy() != null ? user1.getCreatedBy().getId() : "No Admin"));
+	        return "redirect:/dashboard";
+	    } else if (user.isPresent() && user.get().getPassword().equals(password) && user.get().getUserType().equals("User")) {
+	        session.setAttribute("user", user.get()); 
+	        User user1 = (User) session.getAttribute("user");
+			System.out.println("Logged in User ID: " + user1.getId());
+			System.out.println("Created By User ID: " + (user1.getCreatedBy() != null ? user1.getCreatedBy().getId() : "No Admin"));
+	        return "redirect:/user-dashboard";
+	    } else {
+	        model.addAttribute("error", "Invalid username or password");
+	        System.out.println("Login failed for user: " + email);
+	        return "login";
+	    }
+	}
+
+	/*
+	@PostMapping("/login")
 	public String handleLogin(@RequestParam String email,@RequestParam String password,Model model, HttpSession http) {
 		
 		Optional<User> user = userService.findByEmail(email);
@@ -138,7 +210,7 @@ public class InvetoryManagementController {
 			System.out.println("Login failed for user: " + email);
 			return "login";
 		}	
-	}
+	}*/
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
@@ -203,9 +275,11 @@ public class InvetoryManagementController {
 	
 	
 	
+	
 	@PostMapping("/register")
 	public String handleRegistration(@ModelAttribute("user") User  user,Model model) {
 		if(user.getPassword().equals(user.getConfirmPassword())) {
+			
 			userService.saveUser(user);
 		} else {
 			model.addAttribute("passwordError", "Passwords do not match");

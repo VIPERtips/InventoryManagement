@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import com.tips.InventoryManagement.models.Product;
+import com.tips.InventoryManagement.models.User;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 	 Page<Product> findAll(Pageable pageable);
@@ -24,13 +25,15 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	@Query("select sum(p.productCode) from Product p where p.user.id = ?1") 
 	Long countByUserId(int userid);
 	Product findByProductNameAndBarcode(String productName, String barcode);
-	
-	  
-    Page<Product> findByCreatedBy_IdAndUser_Id(Integer createdById, Integer userId, Pageable pageable);
 
     
     Page<Product> findByUser_Id(Integer userId, Pageable pageable);
+    //
+    @Query("SELECT p FROM Product p JOIN p.createdBy u WHERE u.id = :creatorId")
+    Page<Product> findProductsByCreator(@Param("creatorId") Integer creatorId, Pageable pageable);
+    
+    @Query("SELECT SUM(p.productCode) FROM Product p JOIN p.createdBy u WHERE u.id = :userId")
+    Integer findTotalProductQuantityByUserId(@Param("userId") int userId);
 
-	
 	 
 }

@@ -15,12 +15,16 @@ import org.springframework.stereotype.Service;
 
 import com.tips.InventoryManagement.models.Product;
 import com.tips.InventoryManagement.models.ProductDto;
+import com.tips.InventoryManagement.models.User;
 import com.tips.InventoryManagement.repository.ProductRepository;
+import com.tips.InventoryManagement.repository.UserRepository;
 
 @Service
 public class ProductService {
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired UserRepository userRepository;
 	//checkDuplicate
 	public boolean isBarcodeDuplicate(Product product)
 	{
@@ -46,9 +50,34 @@ public class ProductService {
 	    return productRepository.findById(id);  
 	}
 	//start
+	/*
 	public Long getTotalProductQuantityByUserId(int userid) {
 		return productRepository.countByUserId(userid);
+	}*/
+	public Integer getTotalProductQuantityByUserId(int userid) {
+	    List<Product> products = productRepository.findByUserId(userid);
+	    return (int) products.stream().mapToLong(Product::getProductCode).sum();  
 	}
+	   
+	public Integer getTotalProductQuantityByUserIdForUser(int userId) {
+	    // Fetch the user (the regular user).
+	    Optional<User> userOpt = userRepository.findById(userId);
+	    
+	    if (userOpt.isPresent()) {
+	        User user = userOpt.get();
+	        
+	        // Log the createdBy admin ID to see if it's populated
+	        System.out.println("Created By User ID: " + (user.getCreatedBy() != null ? user.getCreatedBy().getId() : "No Admin"));
+
+	        // Fetch the products created by the admin user (the one who created the current user).
+	        return productRepository.findTotalProductQuantityByUserId(user.getCreatedBy().getId());
+	    }
+	    
+	    return 0; // Return 0 if the user doesn't exist.
+	}
+
+
+
 
     
 	public long getTotalProductQuantity() {
@@ -78,6 +107,7 @@ public class ProductService {
         
         return  BigDecimal.valueOf(expectedRevenue).setScale(2,RoundingMode.HALF_UP).doubleValue();
     }
+    
     public Page<Product> getPaginatedProducts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size,Sort.by(Sort.Order.desc("id")));
         return productRepository.findAll(pageable);
@@ -97,18 +127,17 @@ public class ProductService {
 		return productRepository.findByUserId(id);
 	}
 	
-	//
-	public Page<Product> getProductsByCreator(Integer userId, Integer createdById, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return productRepository.findByCreatedBy_IdAndUser_Id(createdById, userId, pageable);
-    }
 
     
     public Page<Product> getProductsByUserId(Integer userId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return productRepository.findByUser_Id(userId, pageable);
     }
-    
-    
+    //
+    public Page<Product> getProductsByCreatorId(int creatorId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("id")));
+        return productRepository.findProductsByCreator(creatorId, pageable);
+    }
+
 
 }

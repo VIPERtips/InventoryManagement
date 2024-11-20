@@ -120,10 +120,11 @@
             <!-- Inventory Section -->
             <div class="sidebar-heading">Main</div>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/products}">
-                    <i class="bi bi-box"></i>
-                    <span>Show Inventory</span>
-                </a>
+                <a class="nav-link" th:href="@{/products-for-user(creatorId=${session.user.createdBy.id})}">
+    <i class="bi bi-box"></i>
+    <span>Show Inventory</span>
+</a>
+
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/new-sale}">

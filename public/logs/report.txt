@@ -12,3 +12,6 @@
 2024-11-18 17:27:19 - Added  - HP - G40 - Quantity  - 10  - Category   - Mobile Phones  - UnitPrice $340.0  - CostPrice $500.0  - Initiated By   - Tadiwa Blessed
 2024-11-18 17:29:11 - Added  - HP - G40 - Quantity  - 10  - Category   - Mobile Phones  - UnitPrice $340.0  - CostPrice $500.0  - Initiated By   - Tadiwa Blessed
 2024-11-18 17:39:44 - Added  - Samsung - Note - Quantity  - 20  - Category   - Mobile Phones  - UnitPrice $300.0  - CostPrice $520.0  - Initiated By   - Tadiwa Blessed
+2024-11-20 09:34:05 - Added  - Samsung - A51 - Quantity  - 10  - Category   - Other  - UnitPrice $120.0  - CostPrice $200.0  - Initiated By   - Tadiwa Blessed
+2024-11-20 09:34:58 - Added  - HP - G40 - Quantity  - 10  - Category   - laptops  - UnitPrice $300.0  - CostPrice $500.0  - Initiated By   - Tadiwa Blessed
+2024-11-20 11:42:00 - Added  - HP - G40 - Quantity  - 10  - Category   - Other  - UnitPrice $300.0  - CostPrice $500.0  - Initiated By   - Tadiwa Blessed

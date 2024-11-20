@@ -36,7 +36,13 @@ public class User {
 		{
 			userType= "Admin";
 		}
+		
+		if(createdBy == null ) {
+			createdBy = this;
+		}
 	}
+	
+	
 	
 
 	public String getUserType() {
@@ -102,6 +108,5 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
+		
 }

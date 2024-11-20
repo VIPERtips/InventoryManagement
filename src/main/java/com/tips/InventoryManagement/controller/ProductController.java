@@ -40,9 +40,6 @@ public class ProductController {
 	        // Admin can see all products created by themselves or any other user.
 	        if (user.getUserType().equals("Admin")) {
 	            productPage = productService.getProductsByUserId(user.getId(), page, size);
-	        } else if (user.getUserType().equals("User")) {
-	            // A regular user can only see products they created, or if the product was created by the admin who created them.
-	            productPage = productService.getProductsByCreator(user.getId(), user.getCreatedBy().getId(), page, size);
 	        } else {
 	            return "redirect:/login";
 	        }
@@ -50,10 +47,28 @@ public class ProductController {
 	        model.addAttribute("currentPage", productPage.getNumber());
 	        model.addAttribute("totalPages", productPage.getTotalPages());
 	        model.addAttribute("pageTitle", user.getUserType() + " Products");
-	        return user.getUserType().equals("Admin") ? "Products" : "user-products";
+	        return "Products";
 	    }
 	    return "redirect:/login";
 	}
+	
+	@GetMapping("/products-for-user")
+	public String showProductsByCreator(@RequestParam("creatorId") Integer creatorId, 
+	                                    @RequestParam(defaultValue = "0") int page,
+	                                    @RequestParam(defaultValue = "10") int size,
+	                                    Model model, HttpSession session) {
+	    User user = (User) session.getAttribute("user");
+	    if (user != null) {
+	        Page<Product> productPage = productService.getProductsByCreatorId(creatorId, page, size);
+	        model.addAttribute("products", productPage.getContent());
+	        model.addAttribute("currentPage", productPage.getNumber());
+	        model.addAttribute("totalPages", productPage.getTotalPages());
+	        model.addAttribute("pageTitle", "User Products");
+	        return "user-products";
+	    }
+	    return "redirect:/login";
+	}
+
 
 	
 	@GetMapping("/new-product")
