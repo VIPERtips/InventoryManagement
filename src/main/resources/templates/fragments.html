@@ -110,7 +110,7 @@
 
             <!-- Dashboard Link -->
             <li class="nav-item active">
-                <a class="nav-link" th:href="@{/user-dashboard}">
+                <a class="nav-link" th:href="@{/user-dashboard((creatorId=${session.user.createdBy.id}))}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>

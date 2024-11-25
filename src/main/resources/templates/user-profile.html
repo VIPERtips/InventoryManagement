@@ -3,7 +3,7 @@
 <head th:replace="fragments :: html_head">
 <body name="page-top">
   <!-- Snameebar Column -->
-  <div th:replace="fragments :: sidebarNav" class="col-lg-2 d-none d-lg-block"></div>
+  <div th:replace="fragments :: sidebarNavUser" class="col-lg-2 d-none d-lg-block"></div>
   <!-- Content Wrapper -->
   <div class="container-fluname col-lg-10 offset-lg-2">
     <!-- Topbar -->
@@ -29,7 +29,7 @@
             <div class="email mb-3">
               <strong>Email:</strong> <span th:text="${user.email}">email</span> 
             </div>
-            <a th:href="@{/create-profile((user=${user.id}))}" class="btn btn-outline-primary">Update Profile</a>
+            <a href="#" class="btn btn-outline-primary">Create Profile</a>
           </div>
           
         </div>

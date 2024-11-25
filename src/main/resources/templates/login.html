@@ -47,6 +47,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
+                                    <p th:if="${successMessage}" th:text="${successMessage}" class="text-success error-msg mb-3"></p>
                                     <form method="POST" action="/login" class=" user">
                                         <div class="form-group">
                                             <input type="email" name="email" class="form-control form-control-user"

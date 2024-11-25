@@ -23,6 +23,16 @@ public class Transaction {
 	@JoinColumn(name="user_id")
 	private User user;
 	
+	private String soldBy;
+	
+	public String getSoldBy() {
+		return soldBy;
+	}
+
+	public void setSoldBy(String soldBy) {
+		this.soldBy = soldBy;
+	}
+
 	public User getUser() {
 		return user;
 	}

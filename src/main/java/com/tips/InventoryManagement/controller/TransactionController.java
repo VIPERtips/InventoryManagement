@@ -26,7 +26,7 @@ public class TransactionController {
             @RequestParam(defaultValue = "10") int size, HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
 		if(user != null && user.getUserType().equals("Admin")) {
-				Page<Transaction> transactionPage = transactionService.getTransactionsByUserId(user.getId(), page,size);
+				Page<Transaction> transactionPage = transactionService.getAllTransactions(page,size);
 				model.addAttribute("transactions", transactionPage.getContent()); 
 		        model.addAttribute("currentPage", transactionPage.getNumber());
 		        model.addAttribute("totalPages", transactionPage.getTotalPages());

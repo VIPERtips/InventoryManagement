@@ -27,6 +27,10 @@ public class SaleService {
 		Pageable pageable = PageRequest.of(page, size,Sort.by(Sort.Order.desc("id")));
         return saleRepository.findByUserId(id,pageable);
 	}
+	public Page<Sale> getAllSales( int page, int size) {
+		Pageable pageable = PageRequest.of(page, size,Sort.by(Sort.Order.desc("id")));
+        return saleRepository.findAll(pageable);
+	}
 
 	public Sale getSaleById(int id) {
 		

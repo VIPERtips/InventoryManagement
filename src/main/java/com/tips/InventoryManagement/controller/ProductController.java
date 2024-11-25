@@ -63,6 +63,15 @@ public class ProductController {
 	        model.addAttribute("products", productPage.getContent());
 	        model.addAttribute("currentPage", productPage.getNumber());
 	        model.addAttribute("totalPages", productPage.getTotalPages());
+	 
+            model.addAttribute("creatorId", creatorId);
+	        Integer totalProductQuantity = productService.getTotalProductQuantityByUserId(creatorId); 
+	        model.addAttribute("totalProductQuantity", totalProductQuantity);
+	        model.addAttribute("totalCost", productService.getTotalCost(creatorId));
+	        model.addAttribute("totalRevenue", productService.getTotalRevenue(creatorId));
+	        model.addAttribute("expectedProfit", productService.getExpectedRevenue(creatorId));
+
+	        
 	        model.addAttribute("pageTitle", "User Products");
 	        return "user-products";
 	    }
@@ -213,7 +222,7 @@ public class ProductController {
 	 @PostMapping("/products/edit")
 	 public String updateProduct(@ModelAttribute("product") @Validated Product product, 
 	                             BindingResult result, HttpSession session,
-	                             @RequestParam(value = "imageFile", required = false) MultipartFile imageFile, 
+	              /*added the true*/               @RequestParam(value = "imageFile", required = true) MultipartFile imageFile, 
 	                             Model model) {
 	     if (result.hasErrors()) {
 	         return "edititem";  

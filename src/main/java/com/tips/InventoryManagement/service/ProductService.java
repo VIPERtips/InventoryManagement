@@ -30,13 +30,16 @@ public class ProductService {
 	{
 		return productRepository.existsByBarcodeAndUserId(product.getBarcode(), product.getUser().getId());
 	}
-	
+	//save product
 	public void saveProduct (Product product) {
 		productRepository.save(product);
 	}
+	//findAll pdcts
 	public List<Product> findAllProducts() {
 		return productRepository.findAllByOrderByIdDesc();
     }
+	
+	//delete product
 	public void deleteProductById(int id) {
 	    
 	    Optional<Product> product = productRepository.findById(id);
@@ -46,34 +49,27 @@ public class ProductService {
 	        throw new RuntimeException("Product not found with id: " + id);
 	    }
 	}
+	
 	public Optional<Product> findProductById(int id) {
 	    return productRepository.findById(id);  
 	}
-	//start
-	/*
-	public Long getTotalProductQuantityByUserId(int userid) {
-		return productRepository.countByUserId(userid);
-	}*/
+	
 	public Integer getTotalProductQuantityByUserId(int userid) {
 	    List<Product> products = productRepository.findByUserId(userid);
 	    return (int) products.stream().mapToLong(Product::getProductCode).sum();  
 	}
 	   
 	public Integer getTotalProductQuantityByUserIdForUser(int userId) {
-	    // Fetch the user (the regular user).
+	    // Fetch the user 
 	    Optional<User> userOpt = userRepository.findById(userId);
 	    
 	    if (userOpt.isPresent()) {
 	        User user = userOpt.get();
-	        
-	        // Log the createdBy admin ID to see if it's populated
-	        System.out.println("Created By User ID: " + (user.getCreatedBy() != null ? user.getCreatedBy().getId() : "No Admin"));
-
 	        // Fetch the products created by the admin user (the one who created the current user).
 	        return productRepository.findTotalProductQuantityByUserId(user.getCreatedBy().getId());
 	    }
 	    
-	    return 0; // Return 0 if the user doesn't exist.
+	    return 0; //doesn't exist.
 	}
 
 
@@ -133,7 +129,7 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page, size);
         return productRepository.findByUser_Id(userId, pageable);
     }
-    //
+    
     public Page<Product> getProductsByCreatorId(int creatorId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("id")));
         return productRepository.findProductsByCreator(creatorId, pageable);

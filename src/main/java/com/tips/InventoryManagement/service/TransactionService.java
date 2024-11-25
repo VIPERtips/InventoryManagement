@@ -27,6 +27,11 @@ public class TransactionService {
 			 Pageable pageable = PageRequest.of(page, size,Sort.by(Sort.Order.desc("id")));
 		        return transactionRepository.findByUserId(id,pageable);
 		}	
+		
+		public Page<Transaction> getAllTransactions(int page, int size) {
+			 Pageable pageable = PageRequest.of(page, size,Sort.by(Sort.Order.desc("id")));
+		        return transactionRepository.findAll(pageable);
+		} 
 		public void deleteProductById(int id) {
 		    
 		    Optional<Transaction> transaction = transactionRepository.findById(id);

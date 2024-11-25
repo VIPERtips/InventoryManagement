@@ -17,6 +17,7 @@ public interface SaleRepository extends JpaRepository<Sale, Integer> {
 	Page<Sale> findByUserId(int id, Pageable pageable);
 	@Query("select s from Sale s where s.id = :id")
 	Sale findById(@Param("id") int id);
+	Page<Sale> findAll(Pageable pageable);
 	
 	 
 }

@@ -15,3 +15,8 @@
 2024-11-20 09:34:05 - Added  - Samsung - A51 - Quantity  - 10  - Category   - Other  - UnitPrice $120.0  - CostPrice $200.0  - Initiated By   - Tadiwa Blessed
 2024-11-20 09:34:58 - Added  - HP - G40 - Quantity  - 10  - Category   - laptops  - UnitPrice $300.0  - CostPrice $500.0  - Initiated By   - Tadiwa Blessed
 2024-11-20 11:42:00 - Added  - HP - G40 - Quantity  - 10  - Category   - Other  - UnitPrice $300.0  - CostPrice $500.0  - Initiated By   - Tadiwa Blessed
+2024-11-20 17:23:15 - Added  - Samsung - A34 - Quantity  - 15  - Category   - Mobile Phones  - UnitPrice $160.0  - CostPrice $280.0  - Initiated By   - Tadiwa Blessed
+2024-11-24 22:16:24 - Update on  - Brother Printer - Brother - Quantity  - 10  - Category   - Other  - UnitPrice $149.99  - CostPrice $130.0  - Initiated By   - Lavet Mbewe
+2024-11-24 22:20:07 - Deleted  - Champion Jacket - Champion - Quantity  - 10  - Category   - Fashion  - UnitPrice $49.99  - CostPrice $45.0  - Initiated By   - Lavet Mbewe
+2024-11-24 22:22:10 - Update on  - Toshiba Laptop - Toshiba - Quantity  - 10  - Category   - Other  - UnitPrice $599.99  - CostPrice $550.0  - Initiated By   - Tadiwa Blessed
+2024-11-24 22:25:44 - Update on  - Asus Laptop - Asus - Quantity  - 10  - Category   - Other  - UnitPrice $699.99  - CostPrice $600.0  - Initiated By   - Tadiwa Blessed

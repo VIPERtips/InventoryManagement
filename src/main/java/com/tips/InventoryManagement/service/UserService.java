@@ -13,17 +13,22 @@ import com.tips.InventoryManagement.repository.UserRepository;
 public class UserService {
 	@Autowired
 	private UserRepository userRepository;
-	
+	//saving the user in the db
 	public void saveUser (User user) {
 		userRepository.save(user);
 	}
-
+	//querying users by their unique email
 	public Optional<User> findByEmail(String email) {
 		// TODO Auto-generated method stub
 		return userRepository.findByEmail(email);
 	}
-	
+	//queryUsers created by an admin
 	public List<User> findUsersCreatedBy(User createdBy) {
         return userRepository.findByCreatedBy(createdBy.getId()); 
+    }
+	//get the quantity for the user
+	public int getTotalProductQuantityForUser(int userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getTotalQuantity();
     }
 }

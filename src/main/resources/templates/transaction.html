@@ -33,7 +33,7 @@
                                     <th scope="col">Payment Method</th>
                                     <th scope="col">Receiver's Contact</th>
                                     <th scope="col">Date of Transaction</th>
-                                    
+                                    <th scope="col">Processed By</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,6 +48,7 @@
                                     <td th:text="${transaction.paymentMethod}"></td>
                                     <td th:text="${transaction.receiverNumber}"></td>
                                     <td th:text="${transaction.transactionDate}"></td>
+                                    <td th:text="${transaction.soldBy}"class="text-lowercase"></td>
                                 </tr>
                             </tbody>
                         </table>

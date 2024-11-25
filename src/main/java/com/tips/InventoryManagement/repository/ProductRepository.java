@@ -34,6 +34,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     
     @Query("SELECT SUM(p.productCode) FROM Product p JOIN p.createdBy u WHERE u.id = :userId")
     Integer findTotalProductQuantityByUserId(@Param("userId") int userId);
-
+    List<Product> findByCreatedBy(User createdBy);
 	 
 }

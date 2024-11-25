@@ -1,6 +1,6 @@
-# Inventory System
+# Inventory Management System
 
-This is a simple and efficient inventory system designed to manage and track your items seamlessly. It incorporates modern design principles and provides a user-friendly interface for managing stock, tracking sales, and generating reports.
+This is a simple and efficient inventory management system designed to manage and track your items seamlessly. It incorporates modern design principles and provides a user-friendly interface for managing stock, tracking sales, and generating reports.
 
 ## Features
 
@@ -13,7 +13,7 @@ This is a simple and efficient inventory system designed to manage and track you
 ## Live Preview
 
 For a visual demonstration of the system's design and features, visit the live preview of our website:  
-👉 [Live Preview](https://vipertips.github.io/EalryCodersAcademy-website/)
+👉 [Live Preview](noteYetOnline)
 
 ## Getting Started
 
@@ -21,7 +21,6 @@ Follow these steps to set up the Inventory System:
 
 ### Prerequisites
 
-- Node.js (latest LTS version recommended)
 - A code editor (e.g., Visual Studio Code)
 
 ### Installation

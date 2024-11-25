@@ -45,7 +45,7 @@ public class SalesController {
             @RequestParam(defaultValue = "10") int size, HttpSession session,Model model,RedirectAttributes redirectAttributes) {
 		User user = (User) session.getAttribute("user");
 		if(user != null && user.getUserType().equals("Admin")) {
-			Page<Sale> salesPage = saleService.getSalesByUserId(user.getId(), page,size);
+			Page<Sale> salesPage = saleService.getAllSales(page,size);
 
 	        model.addAttribute("sales", salesPage.getContent()); 
 	        System.out.println("Sales Page total elements : "+salesPage.getContent());
@@ -112,7 +112,7 @@ public class SalesController {
 		sale1.setSaleDate(LocalDateTime.now());
 		User user = (User) session.getAttribute("user");
 		sale1.setUser(user);
-		
+		sale1.setSoldBy(user.getEmail());
 		sale1.setReceiverNumber(sale.getReceiverNumber());
 		saleService.saveSale(sale1);
 		redirectAttributes.addFlashAttribute("successMsg","Sale processed successfully");
@@ -132,6 +132,7 @@ public class SalesController {
 			transaction.setQuantity(sale.getQuantity());
 			transaction.setReceiverNumber(sale.getReceiverNumber());
 			transaction.setTransactionDate(sale.getSaleDate());
+			transaction.setSoldBy(sale.getSoldBy());
 			User user = (User) session.getAttribute("user");
 			transaction.setUser(user);
 		

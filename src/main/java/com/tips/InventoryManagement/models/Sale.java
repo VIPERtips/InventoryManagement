@@ -18,6 +18,15 @@ public class Sale {
 	private String saleDate;
 	private String paymentMethod;
 	private String receiverNumber;
+	private String soldBy;
+	public String getSoldBy() {
+		return soldBy;
+	}
+
+	public void setSoldBy(String soldBy) {
+		this.soldBy = soldBy;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;

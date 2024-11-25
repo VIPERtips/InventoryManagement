@@ -40,7 +40,7 @@
             </div>
             <div class="form-group">
               <label for="imageFile">Image</label>
-              <input type="file" class="form-control" id="imageFile" name="imageFile" />
+              <input type="file" class="form-control" id="imageFile" name="imageFile" required>
               <img th:src="@{'/images/' + ${product.imageInput}}" width="100" class="mt-2" />
             </div>
         </div>

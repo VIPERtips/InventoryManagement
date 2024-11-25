@@ -34,6 +34,7 @@ public class Product {
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
     private User createdBy; 
+	
     public User getCreatedBy() {
         return createdBy;
     }
