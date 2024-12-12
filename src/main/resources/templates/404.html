@@ -1,97 +1,74 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: html_head">
-<body name="page-top">
-  <!-- Snameebar Column -->
-  <div th:replace="fragments :: sidebarNav" class="col-lg-2 d-none d-lg-block"></div>
-  <!-- Content Wrapper -->
-  <div class="container-fluname col-lg-10 offset-lg-2">
-    <!-- Topbar -->
-    <div th:replace="fragments :: topbarNav" class="mb-4"></div>
-    <!-- Main Content -->
-    <div name="content" class="bg-white shadow mb-4">
-      <!-- Page Heading -->
-      <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 p-2 text-gray-800">Edit Item</h1>
-      </div>
-      <!-- Card -->
-      <div class="card">
-        <div class="card-body">
-          <form th:action="@{/products/edit}" method="post" enctype="multipart/form-data">
-            <input type="hidden" th:value="${product.id}" name="id" />
-            <div class="col-lg-6">
-            <div class="form-group">
-              <label for="productName">Product Name</label>
-              <input type="text" class="form-control" id="productName" name="productName" 
-                     th:value="${product.productName}" required />
-            </div>
-    
-            <div class="form-group">
-              <label for="productDescription">Product Brand</label>
-              <textarea class="form-control" id="productDescription" name="productDescription" required
-                th:text="${product.productDescription}">
-              </textarea>
-            </div>
-    
-            <div class="form-group">
-              <label for="productCode">Product Quantity</label>
-              <input type="number" class="form-control" id="productCode" name="productCode" 
-                     th:value="${product.productCode}" required />
-            </div>
-    
-            <div class="form-group">
-              <label for="category">Category</label>
-              <input type="text" class="form-control" id="category" name="category" 
-                     th:value="${product.category}" required />
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="form-group">
-              <label for="unitCost">Unit Cost</label>
-              <input type="number" class="form-control" id="unitCost" name="unitCost" 
-                     th:value="${product.unitCost}" step="0.01" required />
-            </div>
-    
-            <div class="form-group">
-              <label for="costPrice">Cost Price</label>
-              <input type="number" class="form-control" id="costPrice" name="costPrice" 
-                     th:value="${product.costPrice}" step="0.01" required />
-            </div>
-    
-            <!-- Image (Optional) -->
-            <div class="form-group">
-              <label for="imageFile">Image</label>
-              <input type="file" class="form-control" id="imageFile" name="imageFile" />
-              <img th:src="@{'/images/' + ${product.imageInput}}" width="100" class="mt-2" />
-            </div>
-    
-            <button type="submit" class="btn btn-primary">Update Product</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div th:replace="fragments :: modal"></div>
-</body>
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
-<!-- Page level plugins -->
-<script src="vendor/chart.js/Chart.min.js"></script>
-<!-- Page level custom scripts -->
-<script src="js/demo/chart-area-demo.js"></script>
-<script src="js/demo/chart-pie-demo.js"></script>
-<!-- cdn link -->
-    <!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJf+XwS6B+JYJl7xhv1wpPqJjmGg6FSSk7k5dJUnhbKMldRfBGcQg5FCPX2Z" crossorigin="anonymous">
+</head>
+<body>
 
-<!-- jQuery Easing Plugin -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Registration Form</h2>
+    <form>
+        <!-- Full Name -->
+        <div class="mb-3">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your full name" required>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+        </div>
+
+        <!-- Gender -->
+        <div class="mb-3">
+            <label class="form-label">Gender</label>
+            <div>
+                <input type="radio" id="male" name="gender" value="male" class="form-check-input">
+                <label for="male" class="form-check-label">Male</label>
+            </div>
+            <div>
+                <input type="radio" id="female" name="gender" value="female" class="form-check-input">
+                <label for="female" class="form-check-label">Female</label>
+            </div>
+        </div>
+
+        <!-- Terms and Conditions -->
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+            <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary w-100">Register</button>
+    </form>
+</div>
+
+<!-- Link to Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXgfSM7BXqYVrSxt9TA5Iz7EnihC/75kaeq6YByXbn9WpErvFC5e6jdWswvLGo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0GfwCBz9P0w9Uvvf4HT5QjjztGFsD8ftZoB1A6XfZn2Z/0Y" crossorigin="anonymous"></script>
+
+</body>
 </html>

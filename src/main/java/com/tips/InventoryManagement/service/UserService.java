@@ -31,4 +31,7 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         return user.getTotalQuantity();
     }
+	public Optional<User> findUserById(Integer id) {
+		return userRepository.findById(id);
+	}
 }

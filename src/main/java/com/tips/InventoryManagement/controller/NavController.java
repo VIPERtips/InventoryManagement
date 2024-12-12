@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tips.InventoryManagement.config.SecurityConfig;
@@ -21,6 +22,18 @@ import jakarta.servlet.http.HttpSession;
 public class NavController {
 	@Autowired
 	private UserService userService;
+	
+	
+	@GetMapping("/forgot-password")
+	public String forgotPassword() {
+		return "forgot-password";
+	}
+	
+	@PostMapping("/forgot-password")
+	public String resetPassword(@RequestParam String email) {
+		
+		return "forgot-password";
+	}
 	@GetMapping("/home")
 	public String home(Model model, HttpSession session) {
 		User user = (User) session.getAttribute("user");

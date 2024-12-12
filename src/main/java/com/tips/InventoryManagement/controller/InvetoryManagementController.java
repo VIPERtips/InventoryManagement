@@ -20,6 +20,7 @@ import com.tips.InventoryManagement.config.SecurityConfig;
 import com.tips.InventoryManagement.models.Product;
 import com.tips.InventoryManagement.models.User;
 import com.tips.InventoryManagement.repository.ProductRepository;
+import com.tips.InventoryManagement.service.EmailSender;
 import com.tips.InventoryManagement.service.ProductService;
 import com.tips.InventoryManagement.service.UserService;
 
@@ -31,6 +32,8 @@ public class InvetoryManagementController {
 	private UserService userService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private EmailSender emailSender;
 	
 	@Autowired
 	private ProductRepository productRepository;
@@ -218,7 +221,8 @@ public class InvetoryManagementController {
 	}
 	
 	@GetMapping("/create-user")
-	public String registerNewUser(@ModelAttribute("user") User  user){
+	public String registerNewUser(@ModelAttribute("user") User  user,Model model){
+		model.addAttribute("pageTitle", "Create User"); 
 		return "new-user";
 	}
 	
@@ -240,6 +244,14 @@ public class InvetoryManagementController {
 	        }
 	        String hashedPassword = SecurityConfig.hashPassword(user.getPassword());
 			user.setPassword(hashedPassword);
+			String toEmail = user.getEmail();
+	        String subject = "Welcome to Inventory Management System";
+	        String body = String.format("Dear %s,\n\nWelcome to our system! Here are your login credentials:\n\nEmail: %s\nPassword: %s\n\nPlease keep this information safe.\n\nBest regards,\nInventory Management Team",
+	                user.getFirstName(), user.getEmail(), user.getConfirmPassword()); 
+
+	        emailSender.sendEmail(toEmail, subject, body);
+
+	        
 	        
 	        userService.saveUser(user);
 	       
@@ -269,7 +281,63 @@ public class InvetoryManagementController {
 	        return "redirect:/login"; 
 	    }
 	}
+	@GetMapping("/users/edit")
+	public String showEditProductForm(@RequestParam("id") Integer id, Model model, HttpSession session) {
+	    User user = (User) session.getAttribute("user");
+	    if (user != null) {
+	        Optional<User> userOpt = userService.findUserById(id);
+	        if (userOpt.isPresent()) {
+	            User user1 = userOpt.get();
+	            
+	            
+	            model.addAttribute("user", user1);
+	            model.addAttribute("usertype", List.of("Admin", "User", "Cashier", "Stock Manager")); 
+	            model.addAttribute("username", user1.getEmail());
+	            model.addAttribute("pageTitle", "Edit Users");
+	            
+	            return "edit-users";  
+	        } else {
+	            model.addAttribute("errorMsg", "User not found.");
+	            return "redirect:/show-users";
+	        }
+	    } else {
+	        return "redirect:/login";
+	    }
+	}
+	@PostMapping("/user/edit")
+	public String updateUser(Model model,HttpSession session,RedirectAttributes redirectAttributes,@ModelAttribute("user") User user) throws NoSuchAlgorithmException {
 
+
+	    if (user.getPassword().equals(user.getConfirmPassword())) {
+	    	
+	        
+	        // Ensure the user is created as Admin by default
+	        if (user.getUserType() == null || user.getUserType().isEmpty()) {
+	            user.setUserType("Admin");
+	        }
+	        String hashedPassword = SecurityConfig.hashPassword(user.getPassword());
+			user.setPassword(hashedPassword);
+			String toEmail = user.getEmail();
+	        String subject = "Welcome to Inventory Management System";
+	        String body = String.format("Dear %s,\n\nHere are your new login credentials:\n\nEmail: %s\nPassword: %s\n\nPlease keep this information safe.\n\nBest regards,\nInventory Management Team",
+	                user.getFirstName(), user.getEmail(), user.getConfirmPassword()); 
+
+	        emailSender.sendEmail(toEmail, subject, body);
+
+	        
+	        
+	        userService.saveUser(user);
+	       
+	        
+	        redirectAttributes.addFlashAttribute("successMsg", "User updated successfully!");
+	    } else {
+	        model.addAttribute("passwordError", "Passwords do not match");
+	        return "edit-users";
+	    }
+
+	   
+		return "redirect:/show-users";
+	}
 
 	
 
@@ -281,12 +349,13 @@ public class InvetoryManagementController {
 	
 	
 	
-	
+	/*
 	@PostMapping("/register")
 	public String handleRegistration(@ModelAttribute("user") User  user,Model model,RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
 		if(user.getPassword().equals(user.getConfirmPassword())) {
 			String hashedPassword = SecurityConfig.hashPassword(user.getPassword());
 			user.setPassword(hashedPassword);
+			
 			userService.saveUser(user);
 		} else {
 			model.addAttribute("passwordError", "Passwords do not match");
@@ -294,5 +363,36 @@ public class InvetoryManagementController {
 		}
 		redirectAttributes.addFlashAttribute("successMessage","Registration successfull. Redirecting to login");
 		return "redirect:/login";
+	}*/
+	
+	@PostMapping("/register")
+	public String handleRegistration(
+	        @ModelAttribute("user") User user,
+	        Model model,
+	        RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
+
+	    if (user.getPassword().equals(user.getConfirmPassword())) {
+	        // Hash the password and set it
+	        String hashedPassword = SecurityConfig.hashPassword(user.getPassword());
+	        user.setPassword(hashedPassword);
+
+	        // Save the user
+	        userService.saveUser(user);
+
+	        // Send a welcome email
+	        String toEmail = user.getEmail();
+	        String subject = "Welcome to Inventory Management System";
+	        String body = String.format("Dear %s,\n\nWelcome to our system! Here are your login credentials:\n\nEmail: %s\nPassword: %s\n\nPlease keep this information safe.\n\nBest regards,\nInventory Management Team",
+	                user.getFirstName(), user.getEmail(), user.getConfirmPassword()); 
+
+	        emailSender.sendEmail(toEmail, subject, body);
+
+	        redirectAttributes.addFlashAttribute("successMessage", "Registration successful. A welcome email has been sent.");
+	        return "redirect:/login";
+	    } else {
+	        model.addAttribute("passwordError", "Passwords do not match");
+	        return "register";
+	    }
 	}
+
 }

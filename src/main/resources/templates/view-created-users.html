@@ -37,7 +37,7 @@
                 <td th:text="${user.email}" class="text-lowercase"></td>
                 <td th:text="${user.userType}"></td>
                 <td>
-                  <a href="#" class="bi bi-pencil m-2 text-info rounded-1">Update</a>
+                  <a href="#" class="bi bi-pencil m-2 text-info rounded-1" th:href="@{/users/edit(id=${user.id})}">Update</a>
                   <a href="#" class="bi bi-trash text-danger rounded-1">Delete</a>
                 </td>
               </tr>

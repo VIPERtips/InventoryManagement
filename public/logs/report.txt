@@ -20,3 +20,5 @@
 2024-11-24 22:20:07 - Deleted  - Champion Jacket - Champion - Quantity  - 10  - Category   - Fashion  - UnitPrice $49.99  - CostPrice $45.0  - Initiated By   - Lavet Mbewe
 2024-11-24 22:22:10 - Update on  - Toshiba Laptop - Toshiba - Quantity  - 10  - Category   - Other  - UnitPrice $599.99  - CostPrice $550.0  - Initiated By   - Tadiwa Blessed
 2024-11-24 22:25:44 - Update on  - Asus Laptop - Asus - Quantity  - 10  - Category   - Other  - UnitPrice $699.99  - CostPrice $600.0  - Initiated By   - Tadiwa Blessed
+2024-11-25 14:12:25 - Added  - Samsung - A34 - Quantity  - 15  - Category   - Other  - UnitPrice $160.0  - CostPrice $280.0  - Initiated By   - Tadiwa Blessed
+2024-11-26 13:14:26 - Added  - Samsung - A34 - Quantity  - 15  - Category   - Other  - UnitPrice $160.0  - CostPrice $280.0  - Initiated By   - Tadiwa Blessed
